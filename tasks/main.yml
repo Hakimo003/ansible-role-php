@@ -1,0 +1,26 @@
+---
+- name: Add repository for Redhat
+  yum:
+    name: "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
+    state: present
+
+- name: Install yum-utils
+  yum:
+    name: yum-utils
+
+- name: Add remi-php
+  yum_repository:
+    name: remi-php72
+    description: Remi's PHP 7.2 RPM repository for Enterprise Linux $releasever - $basearch
+    mirrorlist: http://rpms.remirepo.net/enterprise/$releasever/php72/mirror
+    enabled: yes
+    gpgcheck: 1
+    gpgkey: http://rpms.remirepo.net/RPM-GPG-KEY-remi
+
+- name: Ensure PHP packages are installed.
+  package:
+    name: "{{ item }}"
+    state: "{{ php_packages_state }}"
+    enablerepo: "{{ php_enablerepo }}"
+  with_items: "{{ php_packages }}"
+  notify: "restart php7-fpm"
