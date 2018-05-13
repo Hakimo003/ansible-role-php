@@ -1,7 +1,8 @@
 
 # Ansible Role: php
 
-This Ansible role for php 7 .
+An Ansible role that installs and configure PHP 7 on Redhat/centos servers.
+
 
 ## Requirements
 
